@@ -1,17 +1,10 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import * as calc from '../components/calculator';
+import CalculatorForm from '../components/calculatorForm';
 
 export default function Home() {
 
   
-
- let cardsInDeck = 40;
- let targetCards = 3;
- let cardsInHand = 5;
- let desiredCards = 1;
-
- let probability = calc.hypergeometricDistribution(desiredCards, targetCards, cardsInHand, cardsInDeck) * 100
-  console.log(probability.toString());
   return (
     <div className="container">
       <Head>
@@ -20,18 +13,10 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+        <h1>
+          YGO Calc
         </h1>
-
-        <p className="description">
-          Probability of opening exactly 1 = {probability}
-        </p>
-        <p className="description">
-          
-        </p>
-
-        
+        <CalculatorForm></CalculatorForm>
       </main>
 
       <footer>
@@ -40,8 +25,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className="logo" />
+          Powered by <img src="/vercel.svg" alt="Vercel" className="logo" />
         </a>
       </footer>
 
@@ -191,5 +175,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }
