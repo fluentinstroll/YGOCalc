@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import * as calc from '../components/calculator';
-import CalculatorForm from '../components/calculatorForm';
+import CalculatorForm from '../components/CalculatorForm';
 
 export default function Home() {
 
