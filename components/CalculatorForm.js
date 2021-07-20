@@ -1,34 +1,68 @@
 import * as calc from './calculator';
 import styles from '../styles/CalculatorForm.module.css';
+import React, {Component} from 'react'
 
-export default function CalculatorForm() {
-  let cardsInDeck = 40;
-  let targetCards = 3;
-  let cardsInHand = 5;
-  let desiredCards = 1;
+export default class CalculatorForm extends Component {
+  /**TODO:
+   * - currently when editing the form, you randomly get NaN
+   */
 
-  const handleSubmit = event => {
-      event.preventDefault();
-    let probability =
-      calc.hypergeometricDistribution(
-        data.desiredCards,
-        data.targetCards,
-        data.cardsInHand,
-        data.cardsInDeck
-      ) * 100;
-    console.log(probability.toString());
+
+  constructor(props) {
+    super(props);
+  this.state = {
+    cardsInDeck: 40,
+    targetCards: 3,
+    cardsInHand: 5,
+    desiredCards: 1,
+    probability: '',
   };
+}
+
+  handleCardsInDeckChange = (event) => {
+    this.setState({ cardsInDeck: event.target.value });
+    console.log('target: ' + event.target.value + ' handleCardsInDeckChange: ' + this.state.cardsInDeck)
+    this.handleChange()
+  }
+  handleCardsInHandChange = (event) => {
+    this.setState({ cardsInHand: event.target.value });
+    this.handleChange()
+  }
+  handleTargetCardsChange = (event) => {
+    this.setState({ targetCards: event.target.value });
+    this.handleChange()
+  }
+  handleDesiredCardsChange = (event) => {
+    this.setState({ desiredCards: event.target.value });
+    this.handleChange()
+  }
+
+  handleChange = () => {
+    //might get NaN because of this
+    let probabilityCard = (
+      calc.hypergeometricDistribution(
+        this.state.desiredCards,
+        this.state.targetCards,
+        this.state.cardsInHand,
+        this.state.cardsInDeck
+      ) * 100
+    ).toString();
+    console.log(this.state.probability);
+    this.setState({ probability: probabilityCard });
+  };
+render(){
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
           Deck Size
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="deckSize"
+          id={this.state.cardsInDeck}
           type="text"
           placeholder="40"
+          onChange={this.handleCardsInDeckChange}
         />
       </div>
       <div className="mb-4">
@@ -37,9 +71,10 @@ export default function CalculatorForm() {
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="handSize"
+          id={this.state.cardsInHand}
           type="text"
           placeholder="5"
+          onChange={this.handleCardsInHandChange}
         />
       </div>
       <div className="mb-4">
@@ -48,9 +83,10 @@ export default function CalculatorForm() {
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="targetCards"
+          id={this.state.targetCards}
           type="text"
           placeholder="3"
+          onChange={this.handleTargetCardsChange}
         />
       </div>
       <div className="mb-4">
@@ -59,14 +95,15 @@ export default function CalculatorForm() {
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="openCards"
+          id={this.state.desiredCards}
           type="text"
           placeholder="1"
+          onChange={this.handleDesiredCardsChange}
         />
       </div>
-
-      <button type="submit"
-          >Submit</button>
+      <label className="block text-gray-700 text-sm font-bold mb-2">
+        {this.state.probability}
+      </label>
     </form>
   );
-}
+}}
